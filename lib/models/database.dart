@@ -17,7 +17,6 @@ part 'database.g.dart';
     tables: [Categories, Transactions])
 class AppDb extends _$AppDb {
   AppDb() : super(_openConnection());
-
   @override
   int get schemaVersion => 1;
 
@@ -31,8 +30,49 @@ class AppDb extends _$AppDb {
         .write(CategoriesCompanion(name: Value(name)));
   }
 
+  Future updateTransactionrepo(
+      int id, int amount, int categori_id, String deskripsi) async {
+    return (update(transactions)..where((tbl) => tbl.id.equals(id))).write(
+        TransactionsCompanion(
+            amount: Value(amount),
+            category_id: Value(categori_id),
+            description: Value(deskripsi)));
+  }
+
   Future deleteCategoryRepo(int id) async {
     return (delete(categories)..where((tbl) => tbl.id.equals(id))).go();
+  }
+
+  Future deleteTransactionRepo(int id) async {
+    return (delete(transactions)..where((tbl) => tbl.id.equals(id))).go();
+  }
+
+  Future<List> getTransactions() async {
+    final db = AppDb();
+    List items = await db.select(db.transactions).get();
+    return items;
+  }
+
+  Future<List> getCategoryById(int id) async {
+    final category =
+        await (select(categories)..where((tbl) => tbl.id.equals(id))).get();
+    return category;
+  }
+
+  Stream<List<TransactionWithCategory>> getTr() {
+    final query = select(transactions).join([
+      leftOuterJoin(
+          categories, categories.id.equalsExp(transactions.category_id))
+    ]);
+
+    return query.watch().map((rows) {
+      return rows.map((row) {
+        return TransactionWithCategory(
+          row.readTable(transactions),
+          row.readTable(categories),
+        );
+      }).toList();
+    });
   }
 
   Stream<List<TransactionWithCategory>> getTransactionByDateRepo(

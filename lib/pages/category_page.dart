@@ -54,8 +54,8 @@ class _CategoryPageState extends State<CategoryPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  ((category != null) ? 'Edit ' : 'Add ') +
-                      ((isExpense!) ? "Outcome" : "Income"),
+                  ((category != null) ? 'Edit ' : 'Tambah ') +
+                      ((isExpense!) ? "Pengeluaran" : "Pemasukan"),
                   style: TextStyle(
                     fontSize: 14,
                     color: (isExpense!) ? Colors.red : Colors.green,
@@ -67,7 +67,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 TextFormField(
                   controller: categoryNameController,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(), hintText: "Name"),
+                      border: OutlineInputBorder(), hintText: "Nama"),
                 ),
                 SizedBox(
                   height: 10,
@@ -82,7 +82,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
                       Navigator.of(context, rootNavigator: true).pop('dialog');
                     },
-                    child: Text("Save"))
+                    child: Text("Simpan"))
               ],
             ))),
           );
@@ -115,7 +115,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       });
                     },
                   ),
-                  Text(isExpense! ? "Expense" : "Income",
+                  Text(isExpense! ? "Pengeluaran" : "Pemasukan",
                       style: TextStyle(fontSize: 14))
                 ],
               ),
@@ -187,12 +187,12 @@ class _CategoryPageState extends State<CategoryPage> {
                   );
                 } else {
                   return Center(
-                    child: Text("No has data"),
+                    child: Text("Belum ada data"),
                   );
                 }
               } else {
                 return Center(
-                  child: Text("No has data"),
+                  child: Text("Belum ada data"),
                 );
               }
             }

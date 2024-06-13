@@ -4,6 +4,7 @@ import 'package:app_money/models/transaction_with_category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:intl/intl.dart';
 
 class TransactionPage extends StatefulWidget {
@@ -21,8 +22,8 @@ class _TransactionPageState extends State<TransactionPage> {
   final AppDb database = AppDb();
   Category? selectedCategory;
   TextEditingController dateController = TextEditingController();
-  TextEditingController amountController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
 
   Future insert(
       String description, int categoryId, int amount, DateTime date) async {
@@ -69,7 +70,7 @@ class _TransactionPageState extends State<TransactionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Add Transacrtion")),
+      appBar: AppBar(title: Text("Form Transaksi")),
       body: SingleChildScrollView(
         child: SafeArea(
             child: Column(
@@ -92,7 +93,7 @@ class _TransactionPageState extends State<TransactionPage> {
                   },
                 ),
                 Text(
-                  isExpense ? "Expense" : "Income",
+                  isExpense ? "Pengeluaran" : "Pemasukan",
                   style: TextStyle(fontSize: 14),
                 )
               ],
@@ -104,7 +105,7 @@ class _TransactionPageState extends State<TransactionPage> {
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
-                  labelText: 'Amount',
+                  labelText: 'Nominal',
                 ),
               ),
             ),
@@ -114,7 +115,7 @@ class _TransactionPageState extends State<TransactionPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                "Category",
+                "Kategori",
               ),
             ),
             SizedBox(
@@ -131,9 +132,8 @@ class _TransactionPageState extends State<TransactionPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: DropdownButton<Category>(
                           isExpanded: true,
-                          value: (selectedCategory == null)
-                              ? snapshot.data!.first
-                              : selectedCategory,
+                          hint: Text('Silahkan pilih kategori'),
+                          value: selectedCategory,
                           icon: const Icon(Icons.arrow_downward),
                           elevation: 16,
                           onChanged: (Category? newValue) {
@@ -151,7 +151,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         ),
                       );
                     } else {
-                      return Text("Belum ada kategory");
+                      return Text("Belum ada kategori");
                     }
                   }
                 }),
@@ -162,7 +162,8 @@ class _TransactionPageState extends State<TransactionPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextFormField(
                 controller: dateController,
-                decoration: const InputDecoration(labelText: "Enter Date"),
+                decoration:
+                    const InputDecoration(labelText: "Masukkan Tanggal"),
                 readOnly: true,
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
@@ -197,7 +198,7 @@ class _TransactionPageState extends State<TransactionPage> {
                 controller: descriptionController,
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
-                  labelText: 'Description',
+                  labelText: 'Deskripsi',
                 ),
               ),
             ),
@@ -214,7 +215,7 @@ class _TransactionPageState extends State<TransactionPage> {
                           DateTime.parse(dateController.text));
                       Navigator.pop(context, true);
                     },
-                    child: Text('Save')))
+                    child: Text('Simpan')))
           ],
         )),
       ),

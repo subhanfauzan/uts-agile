@@ -278,6 +278,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_masked_text2:
+    dependency: "direct main"
+    description:
+      name: flutter_masked_text2
+      sha256: "5ccf6f1f8b7b7a8025e3fbaea48bff0aa7e7e9512c723e26138a0b24f31ca4d8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -324,7 +332,7 @@ packages:
     source: hosted
     version: "4.0.2"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"

@@ -33,36 +33,6 @@ class _MainPageState extends State<MainPage> {
     return database.select(database.categories).get();
   }
 
-  void showAwe() async {
-    List<Category> al = await getAllCategory();
-    print('PANJANG : ' + al.length.toString());
-  }
-
-  void showSuccess(BuildContext context) {
-    // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {},
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("My title"),
-      content: Text("This is my message."),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void updateView(int index, DateTime? date) {
     setState(() {
       if (date != null) {
@@ -96,70 +66,76 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: Visibility(
-          visible: (currentIndex == 0) ? true : false,
-          child: FloatingActionButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(
-                  builder: (context) =>
-                      TransactionPage(transactionsWithCategory: null),
-                ))
-                    .then((value) {
-                  setState(() {
-                    updateView(0, DateTime.now());
-                  });
-                });
-              },
-              backgroundColor: Colors.green,
-              child: Icon(Icons.add)),
+      floatingActionButton: Visibility(
+        visible: (currentIndex == 0) ? true : false,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(
+              builder: (context) =>
+                  TransactionPage(transactionsWithCategory: null),
+            ))
+                .then((value) {
+              setState(() {
+                updateView(0, DateTime.now());
+              });
+            });
+          },
+          backgroundColor: Colors.grey,
+          child: Icon(Icons.add),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-            child: Row(
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
-                onPressed: () {
-                  updateView(0, DateTime.now());
-                },
-                icon: Icon(Icons.home)),
+              onPressed: () {
+                updateView(0, DateTime.now());
+              },
+              icon: Icon(Icons.home),
+            ),
             SizedBox(
               width: 20,
             ),
             IconButton(
-                onPressed: () {
-                  updateView(1, DateTime.now());
-                },
-                icon: Icon(Icons.list))
+              onPressed: () {
+                updateView(1, DateTime.now());
+              },
+              icon: Icon(Icons.list),
+            )
           ],
-        )),
-        body: _children[currentIndex],
-        appBar: (currentIndex == 1)
-            ? PreferredSize(
-                preferredSize: const Size.fromHeight(100),
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 36, horizontal: 16),
-                    child: Text(
-                      "Categories",
-                      style: TextStyle(fontSize: 20),
-                    ),
+        ),
+      ),
+      body: _children[currentIndex],
+      appBar: (currentIndex == 1)
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(100),
+              child: Container(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 36, horizontal: 16),
+                  child: Text(
+                    "Categories",
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
-              )
-            : CalendarAppBar(
-                fullCalendar: true,
-                backButton: false,
-                accent: Colors.green,
-                locale: 'en',
-                onDateChanged: (value) {
-                  setState(() {
-                    selectedDate = value;
-                    updateView(0, selectedDate);
-                  });
-                },
-                lastDate: DateTime.now()));
+              ),
+            )
+          : CalendarAppBar(
+              fullCalendar: true,
+              backButton: false,
+              accent: Colors.grey,
+              locale: 'en',
+              onDateChanged: (value) {
+                setState(() {
+                  selectedDate = value;
+                  updateView(0, selectedDate);
+                });
+              },
+              lastDate: DateTime.now(),
+            ),
+    );
   }
 }
